@@ -7,13 +7,13 @@ import 'package:vibe_app/screens/models/profile.dart';
 import 'package:vibe_app/screens/models/user.dart';
 
 class AuthenticationService {
-  static Future<Map<String, dynamic>> register(
-      {required String phoneNumber,
-      required String password,
-      required String username,
-      required String firstName}) async {
+  static Future<Map<String, dynamic>> register({
+    required String phoneNumber,
+    required String password,
+    required String username,
+    required String firstName,
+  }) async {
     http.Response response;
-    print("executing");
     try {
       response = await http.post(
         Uri.parse(URLS.register),
@@ -26,21 +26,21 @@ class AuthenticationService {
           'last_name': '',
         }),
       );
-      print(response.body);
 
       if (response.statusCode == 500) {
         throw "An error occurred";
       }
       final Map jsonData = jsonDecode(response.body) as Map;
-      print(response.body);
       return jsonData.cast<String, dynamic>();
     } on http.ClientException {
       throw "Bad Internet connection";
     }
   }
 
-  static Future<Map<String, dynamic>> login(
-      {required String username, required String password}) async {
+  static Future<Map<String, dynamic>> login({
+    required String username,
+    required String password,
+  }) async {
     http.Response response;
     try {
       response = await http.post(
@@ -56,7 +56,6 @@ class AuthenticationService {
         throw "An error occurred";
       }
       final Map jsonData = jsonDecode(response.body) as Map;
-      print(response.body);
       return jsonData.cast<String, dynamic>();
     } on http.ClientException {
       throw "Bad Internet connection";
